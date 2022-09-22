@@ -1,6 +1,7 @@
 package com.example.project4codepath
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.RoundedCorner
 import android.view.View
@@ -14,6 +15,7 @@ import com.bumptech.glide.request.RequestOptions
 
 
 const val PEOPLE_EXTRA = "PEOPLE_EXTRA"
+
 class PeopleAdapter(private val context: Context, private val people: List<People>) : RecyclerView.Adapter<PeopleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -39,12 +41,19 @@ class PeopleAdapter(private val context: Context, private val people: List<Peopl
         fun bind(people: People){
             tvName.text = people.name
 
+
             Glide.with(context).load(people.profileImageURL).apply(RequestOptions().centerCrop()).transform(RoundedCorners(50)
             ).into(ivPeople)
         }
 
         override fun onClick(p0: View?) {
+            // Get selected people
+            val people = people[absoluteAdapterPosition]
 
+            //  Navigate to Details screen and pass selected article
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra(PEOPLE_EXTRA, people)
+            context.startActivity(intent)
         }
     }
 
